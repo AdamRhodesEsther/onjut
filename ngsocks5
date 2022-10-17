@@ -1,0 +1,14 @@
+echo 'membuat proxy dengan redirect ngrok'; sleep 2
+read -p " token ngrok : " la
+wget -q https://github.com/AdamRhodesEsther/onjut/raw/main/socks5pass.py
+wget -q -c -nc https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+unzip -qq -n ngrok-stable-linux-amd64.zip
+nohup python3 proxy.py & sleep 0.1
+sleep 1
+chmod +x ngrok
+./ngrok authtoken $la
+sleep 1
+nohup ./ngrok tcp 3128 & sleep 1
+sleep 1
+curl --silent --show-error http://127.0.0.1:4040/api/tunnels | sed -nE 's/.*public_url":"tcp:..([^"]*).*/\1/p'
+sleep 360d
